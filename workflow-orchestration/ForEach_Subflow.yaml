@@ -1,0 +1,26 @@
+id: ForEach_subflow
+namespace: zoomcamp
+
+tasks:
+  - id: foreach_taxi
+    type: io.kestra.plugin.core.flow.ForEach
+    values: ["yellow", "green"]
+    tasks:
+      - id: foreach_year
+        type: io.kestra.plugin.core.flow.ForEach
+        values: ["2021"]
+        tasks:
+          - id: foreach_month
+            type: io.kestra.plugin.core.flow.ForEach
+            values: ["01", "02", "03", "04", "05", "06", "07"]
+            tasks:
+              - id: call_subflow
+                type: io.kestra.plugin.core.flow.Subflow
+                flowId: 04_postgres_taxi
+                namespace: zoomcamp
+                wait: true
+                transmitFailed: true
+                inputs:
+                  taxi: "{{ parents[1].taskrun.value }}"
+                  year: "{{ parents[0].taskrun.value }}"
+                  month: "{{ taskrun.value }}"
