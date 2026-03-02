@@ -210,3 +210,9 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+.bruin.yml
+
+Bigquery/*.csv.gz
+*.csv.gz
+duckdb.db
+*.db
